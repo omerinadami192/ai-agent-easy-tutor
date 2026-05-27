@@ -6,3 +6,4 @@ langchain-core
 tavily-python
 openai
 langgraph
+ipython
