@@ -27,22 +27,26 @@ class BenimAI():
             return END
 
     def AIBuilder(self):
-        memory = MemorySaver()
-        graph_builder = StateGraph(State)
+        try:
+            memory = MemorySaver()
+            graph_builder = StateGraph(State)
 
-        graph_builder.add_node("llm", self.llm_agent)
-        graph_builder.add_node("search_tool", ToolNode([tavily_search_tool]))
+            graph_builder.add_node("llm", self.llm_agent)
+            graph_builder.add_node("search_tool", ToolNode([tavily_search_tool]))
 
-        graph_builder.add_edge(START, "llm")
-        graph_builder.add_conditional_edges("llm", 
-        self.should_continue,
-        {
-            "search_tool": "search_tool", 
-            END: END
-        }
-        )
-        graph_builder.add_edge("search_tool", "llm")
-        graph = graph_builder.compile(checkpointer = memory)
+            graph_builder.add_edge(START, "llm")
+            graph_builder.add_conditional_edges("llm", 
+            self.should_continue,
+            {
+                "search_tool": "search_tool", 
+                END: END
+            }
+            )
+            graph_builder.add_edge("search_tool", "llm")
+            graph = graph_builder.compile(checkpointer = memory)
+        
+        except Exception as e:
+            return f"Hata: {e}"
 
         return graph
 
