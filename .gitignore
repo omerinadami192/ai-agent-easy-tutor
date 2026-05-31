@@ -12,3 +12,6 @@ wheels/
 # Environment variables / secrets
 .env
 *.env
+
+# Instagram session
+instagram_session.json
